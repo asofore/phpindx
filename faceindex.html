@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Bot</title>
+</head>
+<body>
+	<center><h1>testing</h1></center>
+    <script>
+        const verifyToken = 'hardex';
+        const accessToken = '1193598685178284'; // أدخل هنا رمز الوصول الخاص بك
+
+        // دالة للتحقق من التوكن
+        function verifyWebhook() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hubVerifyToken = urlParams.get('hub_verify_token');
+            const hubChallenge = urlParams.get('hub_challenge');
+
+            if (hubVerifyToken === verifyToken) {
+                console.log(hubChallenge); // استخدم هذا كالإخراج
+                // يمكنك إضافة الكود لإرسال هذا الإخراج إلى خادمك إذا لزم الأمر.
+            }
+        }
+
+        // دالة لإرسال الرسائل
+        function sendMessage(recipientId, messageText) {
+            const data = {
+                recipient: { id: recipientId },
+                message: { text: messageText },
+            };
+
+            fetch(`https://graph.facebook.com/v12.0/me/messages?access_token=${accessToken}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        // دالة لإرسال الرسائل مع أزرار
+        function sendMessageButtons(recipientId, messageText, buttons) {
+            const message = {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        template_type: 'button',
+                        text: messageText,
+                        buttons: buttons,
+                    },
+                },
+            };
+
+            const data = {
+                recipient: { id: recipientId },
+                message: message,
+            };
+
+            fetch(`https://graph.facebook.com/v14.0/me/messages?access_token=${accessToken}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        // هنا يجب أن يتم استدعاء الدوال المناسبة بناءاً على نوع الرسالة المستلمة من Facebook
+
+        // إذا كنت تستخدم Webhook: 
+        // قم بعمل معالجة للرسائل الواردة في هنا بناءاً على الحاجة.
+
+    </script>
+</body>
+</html>
