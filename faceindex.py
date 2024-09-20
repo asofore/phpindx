@@ -11,7 +11,8 @@ ACCESS_TOKEN = '1193598685178284'
 def verify():
     if request.args.get('hub_verify_token') == VERIFY_TOKEN:
         return request.args.get('hub_challenge')
-    return 'Invalid verification token', 403
+    else:
+        return 'Invalid verification token', 403
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
