@@ -76,4 +76,4 @@ def send_message_buttons(recipient_id, message_text, buttons):
     requests.post(url, json=data)
 
 if __name__ == '__main__':
-    app.run(port=5000)  # يمكنك تغيير المنفذ إذا لزم الأمر
+    app.run(host="0.0.0.0")  # يمكنك تغيير المنفذ إذا لزم الأمر
